@@ -19,10 +19,10 @@ class Prediction:
     labels = None
 
     def __init__(self):
-        with open("./model/labels.txt", "r") as file:
+        with open("ml_model/labels.txt", "r") as file:
             Prediction.labels = [line.split()[1] for line in file]
 
-        Prediction.classifier = Classifier("./model/keras_model.h5", "./model/labels.txt")
+        Prediction.classifier = Classifier("ml_model/keras_model.h5", "ml_model/labels.txt")
 
     @classmethod
     def get_bounding_box(cls, hand_landmarks, frame_shape):

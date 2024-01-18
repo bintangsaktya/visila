@@ -1,0 +1,11 @@
+# VISILA ML Service requirements
+# Usage: pip install -r requirements.txt
+
+# Base ------------------------------------------------------------------------
+numpy
+opencv-python
+tensorflow
+cvzone
+mediapipe
+flask
+flask_socketio
