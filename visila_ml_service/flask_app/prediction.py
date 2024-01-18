@@ -41,10 +41,8 @@ class Prediction:
 
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        # Process the frame to get hand landmarks
         hand_landmarks_dict = cls.hands.process(frame_rgb)
 
-        # Draw landmarks if hands are detected
         if hand_landmarks_dict.multi_hand_landmarks:
             for hand_landmarks in hand_landmarks_dict.multi_hand_landmarks:
                 cls.mp_drawing.draw_landmarks(
@@ -56,10 +54,8 @@ class Prediction:
                 )
 
                 try:
-                   # Extract bounding box coordinates
                     bBox = cls.get_bounding_box(hand_landmarks, frame.shape)
 
-                    # Crop the image based on the bounding box
                     # t, b , l, r
                     cropped_image = frame[bBox[1] - cls.offset * 2:bBox[3] + cls.offset* 2, bBox[0] - cls.offset * 2:bBox[2] + cls.offset * 2]
                     cropped_image = cv2.resize(cropped_image, (300  , 300))
@@ -79,7 +75,6 @@ class Prediction:
         try:
             cls.last_detection_time = current_time
 
-            # Start the timer if it's the beginning of a new detection
             if cls.detection_start_time is None:
                 cls.detection_start_time = current_time
 
@@ -89,11 +84,9 @@ class Prediction:
 
             if current_time - cls.detection_start_time >= cls.label_append_interval and prediction[index] > 0.90:
                 cls.word += cls.labels[index]
-                # print(f"Word so far: {cls.word}")
                 cls.detection_start_time = None
             else:
                 print("Not appending")
-                # print(f"Word so far: {cls.word}")
 
             return cls.word
         except:

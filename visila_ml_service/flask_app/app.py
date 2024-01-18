@@ -65,27 +65,10 @@ def process_image(data):
         if image_np.shape[2] == 4:
             image_np = cv2.cvtColor(image_np, cv2.COLOR_RGBA2RGB)
 
-        # # Ensure the image is in BGR format
-        # image_bgr = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
-
-        # hand_landmarks_dict = hands.process(cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB))
-
-        # if hand_landmarks_dict.multi_hand_landmarks:
-        #     for hand_landmarks in hand_landmarks_dict.multi_hand_landmarks:
-        #         mp_drawing.draw_landmarks(
-        #             image_np,
-        #             hand_landmarks,
-        #             mp_hands.HAND_CONNECTIONS,
-        #             mp_drawing_styles.get_default_hand_landmarks_style(),
-        #             mp_drawing_styles.get_default_hand_connections_style(),
-        #         )
-
         processed_img, word_result = predict.process_image(image_np)
 
         socketio.emit('prediction_result', word_result)
-        # _, encoded_image = cv2.imencode('.png', prediction_result)
-        # encoded_image = base64.b64encode(encoded_image).decode('utf-8')
-                
+
         _, encoded_image = cv2.imencode('.png', processed_img)
         encoded_image_data = base64.b64encode(encoded_image.tobytes()).decode('utf-8')
 
