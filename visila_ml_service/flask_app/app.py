@@ -1,11 +1,7 @@
-# app.py
-
 import base64
-import time
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 import cv2
-import mediapipe as mp
 import numpy as np
 from prediction import Prediction
 
@@ -13,21 +9,14 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 predict = Prediction()
 
-processed_images = []
-# MediaPipe Hands setup
-mp_hands = mp.solutions.hands
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
-hands = mp_hands.Hands(static_image_mode=False, min_detection_confidence=0.3)
-
 @app.route('/')
 def index():
-    return render_template('index.html', processed_images=processed_images)
+    return render_template('index.html')
 
 @socketio.on('connect')
 def handle_connect():
     print('Client connected')
-    socketio.emit('processed_images', processed_images)
+    socketio.emit('processed_images')
 
 @socketio.on('disconnect')
 def handle_disconnect():

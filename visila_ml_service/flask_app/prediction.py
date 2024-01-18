@@ -17,7 +17,7 @@ class Prediction:
     hands = mp_hands.Hands(static_image_mode=False, min_detection_confidence=0.3)
     classifier = None
     labels = None
-
+    
     def __init__(self):
         with open("ml_model/labels.txt", "r") as file:
             Prediction.labels = [line.split()[1] for line in file]
